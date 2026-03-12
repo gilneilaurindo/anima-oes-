@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GC Animado - BrisaCast 2026</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brisa: {
+                            orange: '#FF7E05',
+                            blue: '#2242D4',
+                            dark: '#1A34A8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Figtree', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            /* Fondo verde para Chroma Key */
+            background-color: #00FF00; 
+            font-family: 'Figtree', sans-serif;
+            color: white;
+        }
+
+        /* Contedor cravado em 1920x1080 para OBS */
+        .viewport-16-9 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            /* Garantir que o fondo do contedor tamén sexa verde */
+            background-color: #00FF00;
+            transform-origin: top left;
+        }
+
+        /* Glassmorphism - Efecto de cristal con desenfoque */
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-left: 6px solid #FF7E05;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 0 0 12px 0;
+        }
+
+        /* Animación do Ticker (Rodapé) */
+        @keyframes tickerScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: tickerScroll 30s linear infinite;
+        }
+
+        /* Animacións de entrada */
+        .anim-slide-in {
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Estilo da pestana superior */
+        .moment-tag {
+            background: #FF7E05;
+            clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
+            padding-right: 45px;
+        }
+
+        /* Branding dentro do GC */
+        .branding-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="viewport-16-9" id="main-container">
+        
+        <!-- ELEMENTOS DO GC -->
+        <div id="gc-content" class="absolute bottom-24 left-10 w-3/4 max-w-4xl">
+            
+            <!-- LOGOTIPOS E ICONA (CABECEIRA) -->
+            <div class="flex items-end anim-slide-in">
+                <!-- Icona de Destaque -->
+                <div class="bg-brisa-orange p-2.5 shadow-lg flex items-center justify-center">
+                    <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/Icone.png" 
+                         alt="Icona" class="h-6 w-6 object-contain brightness-0 invert">
+                </div>
+                <!-- Logos Institucionais -->
+                <div class="branding-box h-[40px] ml-2">
+                    <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
+                         alt="Brisanet" class="h-5 object-contain opacity-90">
+                    <div class="w-[1px] h-4 bg-gray-300"></div>
+                    <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20Unibrisa.png" 
+                         alt="Unibrisa" class="h-6 object-contain opacity-90">
+                </div>
+            </div>
+
+            <!-- ETIQUETA DO MOMENTO -->
+            <div class="anim-slide-in" style="animation-delay: 0.1s;">
+                <div id="moment-label" class="moment-tag inline-block px-6 py-2 text-sm font-black uppercase tracking-widest leading-none flex items-center h-[36px]">
+                    AO VIVO | BRISACAST
+                </div>
+            </div>
+
+            <!-- PANEL DE TÍTULO -->
+            <div class="glass-panel p-6 mt-[-1px] anim-slide-in" style="animation-delay: 0.2s;">
+                <h1 id="main-title" class="text-4xl font-black uppercase leading-tight drop-shadow-lg tracking-tight">
+                    ABERTURA & VISÃO ESTRATÉGICA
+                </h1>
+                <p id="sub-title" class="text-xl font-medium text-gray-200 mt-1 italic opacity-95">
+                    A trajetória da Unibrisa e o Ecossistema de Aprendizagem
+                </p>
+            </div>
+        </div>
+
+        <!-- RODAPÉ DESLIZANTE (TICKER) -->
+        <div class="absolute bottom-0 left-0 w-full h-14 bg-brisa-blue border-t-4 border-brisa-orange flex items-center overflow-hidden">
+            <div class="bg-brisa-orange h-full px-6 flex items-center z-10 font-black italic text-white shadow-lg text-xl">
+                INFO
+            </div>
+            <div class="flex-1 overflow-hidden relative h-full flex items-center">
+                <div id="ticker-text" class="ticker-content text-xl font-bold uppercase tracking-wide text-white">
+                    Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLES PARA O OPERADOR (50% esquerda, 50% direita) -->
+        <div class="absolute inset-0 z-50 flex pointer-events-none">
+            <div onclick="changeMoment(-1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Voltar (Anterior)"></div>
+            <div onclick="changeMoment(1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Avançar (Seguinte)"></div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de TODOS os 10 momentos da transmisión
+        const moments = [
+            {
+                label: "AO VIVO | BRISACAST",
+                title: "O FUTURO É AGORA",
+                sub: "Bem-vindos à Positivação Unibrisa 2026",
+                ticker: "A transmissão iniciará em breve! • Prepare-se para um dia de muito aprendizado! • Use a hashtag #ConectadosPeloAprendizado"
+            },
+            {
+                label: "09:00 - 09:30 | ABERTURA",
+                title: "ABERTURA & VISÃO ESTRATÉGICA",
+                sub: "A trajetória da Unibrisa e o Ecossistema de Aprendizagem",
+                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!"
+            },
+            {
+                label: "09:30 - 10:30 | PAINEL 01",
+                title: "CIBERSEGURANÇA NO GRUPO BRISANET",
+                sub: "Com Valcerlan Almeida, Flavia Paulino, Lucas Kennedy e William Heller",
+                ticker: "Fique atento às dicas de segurança digital! • Próximo painel às 10h30: Compliance e Código de Ética • Use a hashtag #ConectadosPeloAprendizado"
+            },
+            {
+                label: "10:30 - 12:00 | PAINEL 02",
+                title: "COMPLIANCE NA PRÁTICA",
+                sub: "Código de Ética de Bolso com David, Juliana, Luciana e João P.",
+                ticker: "Aja sempre com ética e transparência. • Dúvidas? Utilize o nosso canal de denúncias oficial do Grupo Brisanet."
+            },
+            {
+                label: "12:00 - 13:30 | INTERVALO",
+                title: "PAUSA ESTRATÉGICA",
+                sub: "Recarregue as energias!",
+                ticker: "Voltamos às 13:30 com o Painel sobre Google Cloud! • Aproveite para visitar a nossa Área Vivencial."
+            },
+            {
+                label: "13:30 - 14:30 | PAINEL 03",
+                title: "PRODUTIVIDADE COM GEMINI E WORKSPACE",
+                sub: "Convidados: Natan Valenciano e Igor Carolino",
+                ticker: "Descubra como a Inteligência Artificial pode acelerar sua rotina! 💡 • Lembre-se de conferir os Cursos Plus Brisa na plataforma"
+            },
+            {
+                label: "14:30 - 15:00 | INTERVALO",
+                title: "HORA DO CAFÉ",
+                sub: "Networking e pausa rápida",
+                ticker: "Voltamos em breve! Às 15:00 iniciaremos o Painel sobre Educação Financeira. • Estique as pernas e prepare-se!"
+            },
+            {
+                label: "15:00 - 16:30 | PAINEL 04",
+                title: "EDUCAÇÃO FINANCEIRA",
+                sub: "Estratégias com Ângelo Pessoa e Romário Aquino",
+                ticker: "Aprenda a cuidar do seu futuro financeiro! • Fique ligado nos quizzes para pontuar no Ranking da Unibrisa!"
+            },
+            {
+                label: "16:30 - 16:50 | RESULTADOS",
+                title: "O PÓDIO DO CONHECIMENTO",
+                sub: "Conheça a Regional Destaque de hoje e o Top 5 Aprendentes!",
+                ticker: "Parabéns a todos os participantes! 🎉 • Continue sua jornada no Universo Brisa • O conhecimento transforma!"
+            },
+            {
+                label: "16:50 - 17:00 | ENCERRAMENTO",
+                title: "MOMENTO Q&A DIRETORIA",
+                sub: "Converse com nossos Diretores e alinhe a estratégia",
+                ticker: "Nos vemos amanhã para mais conhecimento na Positivação Unibrisa 2026! • Obrigado pela excelente participação no dia de hoje!"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        // Función para actualizar a interface
+        function updateUI() {
+            const m = moments[currentIndex];
+            const gc = document.getElementById('gc-content');
+            
+            gc.style.animation = 'none';
+            void gc.offsetWidth; 
+            gc.style.animation = null;
+            
+            document.getElementById('moment-label').innerText = m.label;
+            document.getElementById('main-title').innerText = m.title;
+            document.getElementById('sub-title').innerText = m.sub;
+            document.getElementById('ticker-text').innerText = m.ticker + " • " + m.ticker; 
+        }
+
+        // Función para cambiar o momento
+        function changeMoment(dir) {
+            currentIndex += dir;
+            if (currentIndex >= moments.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = moments.length - 1;
+            updateUI();
+        }
+
+        // Atallos de teclado
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowRight") changeMoment(1);
+            if (e.key === "ArrowLeft") changeMoment(-1);
+        });
+
+        // Garantir proporção 1920x1080 e escalar no preview
+        function scaleToFit() {
+            const viewport = document.getElementById('main-container');
+            const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            
+            // Centralizar caso o aspecto da janela non sexa 16:9
+            const left = (window.innerWidth - (1920 * scale)) / 2;
+            const top = (window.innerHeight - (1080 * scale)) / 2;
+            
+            viewport.style.transform = `scale(${scale})`;
+            viewport.style.left = `${left}px`;
+            viewport.style.top = `${top}px`;
+        }
+
+        window.addEventListener('resize', scaleToFit);
+        scaleToFit(); // Executar inicio
+        updateUI();
+    </script>
+</body>
+</html>
