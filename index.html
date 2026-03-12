@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GC Animado - BrisaCast 2026</title>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -53,28 +56,46 @@
             background-color: #00FF00;
         }
 
-        /* Painel Principal - Azul Assertivo, sem risco de vazar no Chroma Key */
+        /* Painel Principal - Azul Assertivo */
         .glass-panel {
             background: linear-gradient(135deg, #1A34A8 0%, #0c1a54 100%);
             border-left: 8px solid #FF7E05;
             box-shadow: 10px 15px 40px rgba(0, 0, 0, 0.6);
             border-radius: 0 0 12px 0;
-            border-bottom: 1px solid rgba(255, 126, 5, 0.3); /* Detalhe sutil */
+            border-bottom: 1px solid rgba(255, 126, 5, 0.3);
         }
 
-        /* Animación do Ticker (Rodapé) */
-        @keyframes tickerScroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        /* Animação do Ticker (Rodapé) - Técnica Robusta de Loop */
+        .ticker-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100%;
         }
 
         .ticker-content {
             display: inline-block;
             white-space: nowrap;
-            animation: tickerScroll 30s linear infinite;
+            /* Velocidade ajustada: 65 segundos */
+            animation: tickerScroll 65s linear infinite;
+            /* Agora começa rodando por padrão */
+            animation-play-state: running;
+            will-change: transform;
         }
 
-        /* Animacións de entrada */
+        @keyframes tickerScroll {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Classe ativada via JavaScript para pausar o texto */
+        .ticker-content.paused {
+            animation-play-state: paused;
+        }
+
+        /* Animações de entrada */
         .anim-slide-in {
             animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -84,7 +105,7 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Estilo da pestana superior */
+        /* Estilo da aba superior */
         .moment-tag {
             background: #FF7E05;
             clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
@@ -102,14 +123,28 @@
             border-radius: 8px 8px 0 0;
             box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
         }
+
+        /* Zonas de clique na tela */
+        .click-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            z-index: 50;
+            cursor: pointer;
+        }
+        .zone-left { left: 0; width: 30%; }
+        .zone-center { left: 30%; width: 40%; }
+        .zone-right { right: 0; width: 30%; }
     </style>
 </head>
 <body>
 
     <div class="viewport-16-9" id="main-container">
         
+        <!-- ELEMENTOS DO GC -->
         <div id="gc-content" class="absolute bottom-24 left-10 w-3/4 max-w-4xl">
             
+            <!-- LOGOTIPOS E ÍCONE (CABEÇALHO) -->
             <div class="flex items-end anim-slide-in">
                 <div class="bg-brisa-orange p-2.5 shadow-lg flex items-center justify-center">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/Icone.png" 
@@ -124,12 +159,14 @@
                 </div>
             </div>
 
+            <!-- ETIQUETA DO MOMENTO -->
             <div class="anim-slide-in" style="animation-delay: 0.1s;">
                 <div id="moment-label" class="moment-tag inline-block px-6 py-2 text-sm font-black uppercase tracking-widest leading-none flex items-center h-[36px]">
                     AO VIVO | BRISACAST
                 </div>
             </div>
 
+            <!-- PAINEL DE TÍTULO -->
             <div class="glass-panel p-6 mt-[-1px] anim-slide-in" style="animation-delay: 0.2s;">
                 <h1 id="main-title" class="text-4xl font-black uppercase leading-tight drop-shadow-md tracking-tight text-white">
                     ABERTURA & VISÃO ESTRATÉGICA
@@ -140,21 +177,24 @@
             </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 w-full h-14 bg-brisa-blue border-t-4 border-brisa-orange flex items-center overflow-hidden shadow-[0_-5px_20px_rgba(0,0,0,0.3)]">
+        <!-- RODAPÉ DESLIZANTE (TICKER) -->
+        <div class="absolute bottom-0 left-0 w-full h-14 bg-brisa-blue border-t-4 border-brisa-orange flex items-center shadow-[0_-5px_20px_rgba(0,0,0,0.3)]">
             <div class="bg-brisa-orange h-full px-8 flex items-center z-10 font-black italic text-white shadow-[5px_0_15px_rgba(0,0,0,0.3)]">
                 INFO
             </div>
-            <div class="flex-1 overflow-hidden relative h-full flex items-center">
-                <div id="ticker-text" class="ticker-content text-lg font-bold uppercase tracking-wide text-white">
+            <!-- Wrapper do Ticker ajustado -->
+            <div class="ticker-wrapper">
+                <div id="ticker-text" class="ticker-content text-xl font-bold uppercase tracking-wide text-white pr-20">
                     Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!
                 </div>
             </div>
         </div>
 
-        <div class="absolute inset-0 z-50 flex pointer-events-none">
-            <div onclick="changeMoment(-1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Anterior"></div>
-            <div onclick="changeMoment(1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Seguinte"></div>
-        </div>
+        <!-- CONTROLES PARA O OPERADOR (ZONAS INVISÍVEIS DE CLIQUE) -->
+        <div class="click-zone zone-left" onclick="changeMoment(-1)" title="Slide Anterior (Seta Esquerda)"></div>
+        <div class="click-zone zone-center" onclick="toggleTicker()" title="Play/Pause Texto (Espaço)"></div>
+        <div class="click-zone zone-right" onclick="changeMoment(1)" title="Próximo Slide (Seta Direita)"></div>
+        
     </div>
 
     <script>
@@ -163,40 +203,43 @@
                 label: "AO VIVO | BRISACAST",
                 title: "ABERTURA & VISÃO ESTRATÉGICA",
                 sub: "A trajetória da Unibrisa e o Ecossistema de Aprendizagem",
-                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!"
+                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!      •      Sejam bem-vindos à Positivação Unibrisa 2026!"
             },
             {
                 label: "PAINEL 01 | CIBERSEGURANÇA",
                 title: "CIBERSEGURANÇA NO GRUPO BRISANET",
                 sub: "Com Valcerlan Almeida, Flavia Paulino, Lucas Kennedy e William Heller",
-                ticker: "Fique atento às dicas de segurança digital! • Próximo painel às 10h30: Compliance e Código de Ética • Use a hashtag #ConectadosPeloAprendizado"
+                ticker: "Fique atento às dicas de segurança digital!      •      Próximo painel às 10h30: Compliance e Código de Ética      •      Use a hashtag #ConectadosPeloAprendizado"
             },
             {
                 label: "PAINEL 03 | GOOGLE CLOUD",
                 title: "PRODUTIVIDADE COM GEMINI E WORKSPACE",
                 sub: "Convidados: Natan Valenciano e Igor Carolino",
-                ticker: "Descubra como a Inteligência Artificial pode acelerar sua rotina! 💡 • Lembre-se de conferir os Cursos Plus Brisa na plataforma • Fique ligado nos quizzes para pontuar no Ranking!"
+                ticker: "Descubra como a Inteligência Artificial pode acelerar sua rotina! 💡      •      Lembre-se de conferir os Cursos Plus Brisa na plataforma      •      Fique ligado nos quizzes para pontuar no Ranking!"
             },
             {
                 label: "MARATONA DO CONHECIMENTO",
                 title: "ACELERE SUA CARREIRA!",
                 sub: "5 dias de imersão na plataforma Unibrisa",
-                ticker: "Realize os cursos, garanta a melhor pontuação nos Quizzes e suba no Ranking Público! 🏆 • As áreas com 100% de conclusão em cibersegurança serão reconhecidas!"
+                ticker: "Realize os cursos, garanta a melhor pontuação nos Quizzes e suba no Ranking Público! 🏆      •      As áreas com 100% de conclusão em cibersegurança serão reconhecidas!"
             },
             {
                 label: "RESULTADOS OFICIAIS",
                 title: "TOP 5 APRENDENTES E DESTAQUES",
                 sub: "Conheça a Regional Destaque de hoje!",
-                ticker: "Parabéns a todos os participantes! 🎉 • Continue sua jornada no Universo Brisa • Nos vemos amanhã para mais conhecimento na Positivação Unibrisa 2026!"
+                ticker: "Parabéns a todos os participantes! 🎉      •      Continue sua jornada no Universo Brisa      •      Nos vemos amanhã para mais conhecimento na Positivação Unibrisa 2026!"
             }
         ];
 
         let currentIndex = 0;
+        let isTickerRunning = true; // Agora começa como verdadeiro
 
         function updateUI() {
             const m = moments[currentIndex];
             const gc = document.getElementById('gc-content');
+            const ticker = document.getElementById('ticker-text');
             
+            // Re-ativa as animações de entrada do painel principal
             gc.style.animation = 'none';
             void gc.offsetWidth; 
             gc.style.animation = null;
@@ -204,7 +247,28 @@
             document.getElementById('moment-label').innerText = m.label;
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
-            document.getElementById('ticker-text').innerText = m.ticker + " • " + m.ticker; 
+            
+            // Atualiza o texto do rodapé e repete a frase para garantir um loop mais denso.
+            ticker.innerText = m.ticker + "      •      " + m.ticker + "      •      " + m.ticker;
+            
+            // Garante que o ticker continue rodando ao mudar de slide
+            ticker.classList.remove('paused');
+            ticker.style.animation = 'none';
+            void ticker.offsetWidth; // Força a atualização do CSS (reflow)
+            ticker.style.animation = null;
+            isTickerRunning = true;
+        }
+
+        // Função para iniciar ou pausar o texto do rodapé
+        function toggleTicker() {
+            const ticker = document.getElementById('ticker-text');
+            if (isTickerRunning) {
+                ticker.classList.add('paused');
+                isTickerRunning = false;
+            } else {
+                ticker.classList.remove('paused');
+                isTickerRunning = true;
+            }
         }
 
         function changeMoment(dir) {
@@ -214,11 +278,17 @@
             updateUI();
         }
 
+        // Atividades do teclado
         window.addEventListener('keydown', (e) => {
             if (e.key === "ArrowRight") changeMoment(1);
             if (e.key === "ArrowLeft") changeMoment(-1);
+            if (e.key === " " || e.key === "Spacebar") {
+                e.preventDefault(); // Evita que a página desça ao apertar espaço
+                toggleTicker();
+            }
         });
 
+        // Inicializa a primeira tela
         updateUI();
     </script>
 </body>
