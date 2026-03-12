@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GC Animado - BrisaCast 2026</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -32,182 +29,131 @@
     </script>
 
     <style>
-        /* RESET E CONFIGURAÇÃO BASE PARA OBS */
         body {
             margin: 0;
             padding: 0;
-            width: 1920px;
-            height: 1080px;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
-            background-color: #00FF00; /* Chroma Key */
+            /* Fundo verde para Chroma Key */
+            background-color: #00FF00; 
             font-family: 'Figtree', sans-serif;
             color: white;
         }
 
+        /* Contêiner 16:9 */
         .viewport-16-9 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1920px;
-            height: 1080px;
+            position: relative;
+            width: 100vw;
+            height: 56.25vw;
+            max-height: 100vh;
+            max-width: 177.77vh;
+            margin: auto;
             overflow: hidden;
+            background-color: #00FF00;
         }
 
-        /* FUNDO SÓLIDO: O OBS lida melhor com RGBA sólido do que com Blur */
-        .solid-panel {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.80) 100%);
-            border-left: 6px solid #FF7E05;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        /* Painel Principal - Azul Assertivo, sem risco de vazar no Chroma Key */
+        .glass-panel {
+            background: linear-gradient(135deg, #1A34A8 0%, #0c1a54 100%);
+            border-left: 8px solid #FF7E05;
+            box-shadow: 10px 15px 40px rgba(0, 0, 0, 0.6);
             border-radius: 0 0 12px 0;
+            border-bottom: 1px solid rgba(255, 126, 5, 0.3); /* Detalhe sutil */
         }
 
-        /* ETIQUETA LARANJA COM LARGURA RESTRITA */
+        /* Animación do Ticker (Rodapé) */
+        @keyframes tickerScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: tickerScroll 30s linear infinite;
+        }
+
+        /* Animacións de entrada */
+        .anim-slide-in {
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Estilo da pestana superior */
         .moment-tag {
-            background-color: #FF7E05;
-            color: white;
-            clip-path: polygon(0 0, 95% 0, 100% 100%, 0% 100%);
-            padding: 6px 45px 6px 20px;
-            width: max-content; /* Impede que o OBS estique o fundo */
-            display: flex;
-            align-items: center;
+            background: #FF7E05;
+            clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
+            padding-right: 45px;
+            box-shadow: 0px 5px 15px rgba(255, 126, 5, 0.4);
         }
 
-        /* CAIXA DE LOGOS */
+        /* Branding dentro do GC */
         .branding-box {
-            background: rgba(255, 255, 255, 0.98);
-            padding: 6px 16px;
+            background: #FFFFFF;
+            padding: 4px 12px;
             display: flex;
             align-items: center;
             gap: 15px;
             border-radius: 8px 8px 0 0;
-        }
-
-        /* TICKER/RODAPÉ CONFIGURADO PARA ALTURA FIXA E CENTRADA */
-        .ticker-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 1920px;
-            height: 54px; /* Altura cravada */
-            background-color: #2242D4;
-            border-top: 4px solid #FF7E05;
-            display: flex;
-            align-items: stretch; /* Preenche toda a altura */
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-        }
-
-        .ticker-label {
-            background-color: #FF7E05;
-            padding: 0 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-style: italic;
-            font-size: 1.25rem;
-            z-index: 10;
-        }
-
-        .ticker-wrap {
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-        }
-
-        @keyframes tickerScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .ticker-track {
-            display: flex;
-            white-space: nowrap;
-            animation: tickerScroll 40s linear infinite;
-        }
-
-        .ticker-item {
-            padding-right: 80px;
-            font-size: 1.25rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-        }
-
-        /* ANIMAÇÃO SIMPLES (Evita travamentos no OBS) */
-        .anim-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
         }
     </style>
 </head>
 <body>
 
-    <div class="viewport-16-9">
+    <div class="viewport-16-9" id="main-container">
         
-        <!-- BLOCO PRINCIPAL DO GC -->
-        <!-- bottom-[80px] para dar espaço ao rodapé, w-[900px] fixo para não distorcer -->
-        <div id="gc-content" class="absolute bottom-[80px] left-[50px] w-[900px]">
+        <div id="gc-content" class="absolute bottom-24 left-10 w-3/4 max-w-4xl">
             
-            <!-- CABEÇALHO COM LOGOS -->
-            <div class="flex items-end anim-fade-in">
-                <!-- Icone -->
-                <div class="bg-brisa-orange p-3 shadow-lg flex items-center justify-center">
+            <div class="flex items-end anim-slide-in">
+                <div class="bg-brisa-orange p-2.5 shadow-lg flex items-center justify-center">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/Icone.png" 
-                         alt="Icona" class="h-6 w-6 object-contain brightness-0 invert">
+                         alt="Ícone" class="h-6 w-6 object-contain brightness-0 invert">
                 </div>
-                <!-- Logos -->
-                <div class="branding-box h-[44px]">
+                <div class="branding-box h-[40px] ml-2">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
-                         alt="Brisanet" class="h-5 object-contain">
+                         alt="Brisanet" class="h-5 object-contain opacity-90">
                     <div class="w-[1px] h-4 bg-gray-400"></div>
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20Unibrisa.png" 
-                         alt="Unibrisa" class="h-6 object-contain">
+                         alt="Unibrisa" class="h-6 object-contain opacity-90">
                 </div>
             </div>
 
-            <!-- ETIQUETA / TAG -->
-            <div class="anim-fade-in" style="animation-delay: 0.1s;">
-                <div id="moment-label" class="moment-tag text-sm font-black uppercase tracking-widest mt-0 shadow-md">
+            <div class="anim-slide-in" style="animation-delay: 0.1s;">
+                <div id="moment-label" class="moment-tag inline-block px-6 py-2 text-sm font-black uppercase tracking-widest leading-none flex items-center h-[36px]">
                     AO VIVO | BRISACAST
                 </div>
             </div>
 
-            <!-- PAINEL DE TEXTO SÓLIDO (SEM BLUR) -->
-            <div class="solid-panel p-6 mt-[-1px] anim-fade-in" style="animation-delay: 0.2s;">
-                <h1 id="main-title" class="text-4xl font-black uppercase leading-tight tracking-tight text-white mb-1">
+            <div class="glass-panel p-6 mt-[-1px] anim-slide-in" style="animation-delay: 0.2s;">
+                <h1 id="main-title" class="text-4xl font-black uppercase leading-tight drop-shadow-md tracking-tight text-white">
                     ABERTURA & VISÃO ESTRATÉGICA
                 </h1>
-                <p id="sub-title" class="text-xl font-medium text-gray-300 italic">
+                <p id="sub-title" class="text-xl font-medium text-blue-100 mt-1 italic opacity-95">
                     A trajetória da Unibrisa e o Ecossistema de Aprendizagem
                 </p>
             </div>
         </div>
 
-        <!-- TICKER / RODAPÉ -->
-        <div class="ticker-bar">
-            <div class="ticker-label text-white shadow-[5px_0_15px_rgba(0,0,0,0.3)]">
+        <div class="absolute bottom-0 left-0 w-full h-14 bg-brisa-blue border-t-4 border-brisa-orange flex items-center overflow-hidden shadow-[0_-5px_20px_rgba(0,0,0,0.3)]">
+            <div class="bg-brisa-orange h-full px-8 flex items-center z-10 font-black italic text-white shadow-[5px_0_15px_rgba(0,0,0,0.3)]">
                 INFO
             </div>
-            <div class="ticker-wrap">
-                <div class="ticker-track">
-                    <span class="ticker-item text-white" id="ticker-1">Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!</span>
-                    <span class="ticker-item text-white" id="ticker-2">Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!</span>
+            <div class="flex-1 overflow-hidden relative h-full flex items-center">
+                <div id="ticker-text" class="ticker-content text-lg font-bold uppercase tracking-wide text-white">
+                    Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!
                 </div>
             </div>
         </div>
 
-        <!-- CONTROLES PARA O OPERADOR -->
         <div class="absolute inset-0 z-50 flex pointer-events-none">
-            <div onclick="changeMoment(-1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Voltar (Anterior)"></div>
-            <div onclick="changeMoment(1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Avançar (Seguinte)"></div>
+            <div onclick="changeMoment(-1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Anterior"></div>
+            <div onclick="changeMoment(1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Seguinte"></div>
         </div>
     </div>
 
@@ -215,63 +161,33 @@
         const moments = [
             {
                 label: "AO VIVO | BRISACAST",
-                title: "O FUTURO É AGORA",
-                sub: "Bem-vindos à Positivação Unibrisa 2026",
-                ticker: "A transmissão iniciará em breve! • Prepare-se para um dia de muito aprendizado! • Use a hashtag #ConectadosPeloAprendizado"
-            },
-            {
-                label: "09:00 - 09:30 | ABERTURA",
                 title: "ABERTURA & VISÃO ESTRATÉGICA",
                 sub: "A trajetória da Unibrisa e o Ecossistema de Aprendizagem",
-                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!"
+                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!"
             },
             {
-                label: "09:30 - 10:30 | PAINEL 01",
+                label: "PAINEL 01 | CIBERSEGURANÇA",
                 title: "CIBERSEGURANÇA NO GRUPO BRISANET",
                 sub: "Com Valcerlan Almeida, Flavia Paulino, Lucas Kennedy e William Heller",
                 ticker: "Fique atento às dicas de segurança digital! • Próximo painel às 10h30: Compliance e Código de Ética • Use a hashtag #ConectadosPeloAprendizado"
             },
             {
-                label: "10:30 - 12:00 | PAINEL 02",
-                title: "COMPLIANCE NA PRÁTICA",
-                sub: "Código de Ética de Bolso com David, Juliana, Luciana e João P.",
-                ticker: "Aja sempre com ética e transparência. • Dúvidas? Utilize o nosso canal de denúncias oficial do Grupo Brisanet."
-            },
-            {
-                label: "12:00 - 13:30 | INTERVALO",
-                title: "PAUSA ESTRATÉGICA",
-                sub: "Recarregue as energias!",
-                ticker: "Voltamos às 13:30 com o Painel sobre Google Cloud! • Aproveite para visitar a nossa Área Vivencial."
-            },
-            {
-                label: "13:30 - 14:30 | PAINEL 03",
+                label: "PAINEL 03 | GOOGLE CLOUD",
                 title: "PRODUTIVIDADE COM GEMINI E WORKSPACE",
                 sub: "Convidados: Natan Valenciano e Igor Carolino",
-                ticker: "Descubra como a Inteligência Artificial pode acelerar sua rotina! 💡 • Lembre-se de conferir os Cursos Plus Brisa na plataforma"
+                ticker: "Descubra como a Inteligência Artificial pode acelerar sua rotina! 💡 • Lembre-se de conferir os Cursos Plus Brisa na plataforma • Fique ligado nos quizzes para pontuar no Ranking!"
             },
             {
-                label: "14:30 - 15:00 | INTERVALO",
-                title: "HORA DO CAFÉ",
-                sub: "Networking e pausa rápida",
-                ticker: "Voltamos em breve! Às 15:00 iniciaremos o Painel sobre Educação Financeira. • Estique as pernas e prepare-se!"
+                label: "MARATONA DO CONHECIMENTO",
+                title: "ACELERE SUA CARREIRA!",
+                sub: "5 dias de imersão na plataforma Unibrisa",
+                ticker: "Realize os cursos, garanta a melhor pontuação nos Quizzes e suba no Ranking Público! 🏆 • As áreas com 100% de conclusão em cibersegurança serão reconhecidas!"
             },
             {
-                label: "15:00 - 16:30 | PAINEL 04",
-                title: "EDUCAÇÃO FINANCEIRA",
-                sub: "Estratégias com Ângelo Pessoa e Romário Aquino",
-                ticker: "Aprenda a cuidar do seu futuro financeiro! • Fique ligado nos quizzes para pontuar no Ranking da Unibrisa!"
-            },
-            {
-                label: "16:30 - 16:50 | RESULTADOS",
-                title: "O PÓDIO DO CONHECIMENTO",
-                sub: "Conheça a Regional Destaque de hoje e o Top 5 Aprendentes!",
-                ticker: "Parabéns a todos os participantes! 🎉 • Continue sua jornada no Universo Brisa • O conhecimento transforma!"
-            },
-            {
-                label: "16:50 - 17:00 | ENCERRAMENTO",
-                title: "MOMENTO Q&A DIRETORIA",
-                sub: "Converse com nossos Diretores e alinhe a estratégia",
-                ticker: "Nos vemos amanhã para mais conhecimento na Positivação Unibrisa 2026! • Obrigado pela excelente participação no dia de hoje!"
+                label: "RESULTADOS OFICIAIS",
+                title: "TOP 5 APRENDENTES E DESTAQUES",
+                sub: "Conheça a Regional Destaque de hoje!",
+                ticker: "Parabéns a todos os participantes! 🎉 • Continue sua jornada no Universo Brisa • Nos vemos amanhã para mais conhecimento na Positivação Unibrisa 2026!"
             }
         ];
 
@@ -281,18 +197,14 @@
             const m = moments[currentIndex];
             const gc = document.getElementById('gc-content');
             
-            // Reiniciar Animação Visualmente
-            gc.classList.remove('anim-fade-in');
+            gc.style.animation = 'none';
             void gc.offsetWidth; 
-            gc.classList.add('anim-fade-in');
+            gc.style.animation = null;
             
             document.getElementById('moment-label').innerText = m.label;
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
-            
-            // Duplicar o texto do ticker para fazer o loop de forma fluida
-            document.getElementById('ticker-1').innerText = m.ticker;
-            document.getElementById('ticker-2').innerText = m.ticker;
+            document.getElementById('ticker-text').innerText = m.ticker + " • " + m.ticker; 
         }
 
         function changeMoment(dir) {
@@ -302,13 +214,11 @@
             updateUI();
         }
 
-        // Navegação pelo Teclado
         window.addEventListener('keydown', (e) => {
             if (e.key === "ArrowRight") changeMoment(1);
             if (e.key === "ArrowLeft") changeMoment(-1);
         });
 
-        // Inicializar com o primeiro momento
         updateUI();
     </script>
 </body>
