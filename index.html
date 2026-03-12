@@ -10,7 +10,7 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -32,19 +32,18 @@
     </script>
 
     <style>
+        /* RESET E CONFIGURAÇÃO BASE PARA OBS */
         body {
             margin: 0;
             padding: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 1920px;
+            height: 1080px;
             overflow: hidden;
-            /* Fondo verde para Chroma Key */
-            background-color: #00FF00; 
+            background-color: #00FF00; /* Chroma Key */
             font-family: 'Figtree', sans-serif;
             color: white;
         }
 
-        /* Contedor cravado em 1920x1080 para OBS */
         .viewport-16-9 {
             position: absolute;
             top: 0;
@@ -52,117 +51,160 @@
             width: 1920px;
             height: 1080px;
             overflow: hidden;
-            /* Garantir que o fondo do contedor tamén sexa verde */
-            background-color: #00FF00;
-            transform-origin: top left;
         }
 
-        /* Glassmorphism - Efecto de cristal con desenfoque */
-        .glass-panel {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        /* FUNDO SÓLIDO: O OBS lida melhor com RGBA sólido do que com Blur */
+        .solid-panel {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.80) 100%);
             border-left: 6px solid #FF7E05;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
             border-radius: 0 0 12px 0;
         }
 
-        /* Animación do Ticker (Rodapé) */
-        @keyframes tickerScroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .ticker-content {
-            display: inline-block;
-            white-space: nowrap;
-            animation: tickerScroll 30s linear infinite;
-        }
-
-        /* Animacións de entrada */
-        .anim-slide-in {
-            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Estilo da pestana superior */
+        /* ETIQUETA LARANJA COM LARGURA RESTRITA */
         .moment-tag {
-            background: #FF7E05;
-            clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
-            padding-right: 45px;
+            background-color: #FF7E05;
+            color: white;
+            clip-path: polygon(0 0, 95% 0, 100% 100%, 0% 100%);
+            padding: 6px 45px 6px 20px;
+            width: max-content; /* Impede que o OBS estique o fundo */
+            display: flex;
+            align-items: center;
         }
 
-        /* Branding dentro do GC */
+        /* CAIXA DE LOGOS */
         .branding-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 6px 16px;
             display: flex;
             align-items: center;
             gap: 15px;
             border-radius: 8px 8px 0 0;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* TICKER/RODAPÉ CONFIGURADO PARA ALTURA FIXA E CENTRADA */
+        .ticker-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 1920px;
+            height: 54px; /* Altura cravada */
+            background-color: #2242D4;
+            border-top: 4px solid #FF7E05;
+            display: flex;
+            align-items: stretch; /* Preenche toda a altura */
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+        }
+
+        .ticker-label {
+            background-color: #FF7E05;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 1.25rem;
+            z-index: 10;
+        }
+
+        .ticker-wrap {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-track {
+            display: flex;
+            white-space: nowrap;
+            animation: tickerScroll 40s linear infinite;
+        }
+
+        .ticker-item {
+            padding-right: 80px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ANIMAÇÃO SIMPLES (Evita travamentos no OBS) */
+        .anim-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
 <body>
 
-    <div class="viewport-16-9" id="main-container">
+    <div class="viewport-16-9">
         
-        <!-- ELEMENTOS DO GC -->
-        <div id="gc-content" class="absolute bottom-24 left-10 w-3/4 max-w-4xl">
+        <!-- BLOCO PRINCIPAL DO GC -->
+        <!-- bottom-[80px] para dar espaço ao rodapé, w-[900px] fixo para não distorcer -->
+        <div id="gc-content" class="absolute bottom-[80px] left-[50px] w-[900px]">
             
-            <!-- LOGOTIPOS E ICONA (CABECEIRA) -->
-            <div class="flex items-end anim-slide-in">
-                <!-- Icona de Destaque -->
-                <div class="bg-brisa-orange p-2.5 shadow-lg flex items-center justify-center">
+            <!-- CABEÇALHO COM LOGOS -->
+            <div class="flex items-end anim-fade-in">
+                <!-- Icone -->
+                <div class="bg-brisa-orange p-3 shadow-lg flex items-center justify-center">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/Icone.png" 
                          alt="Icona" class="h-6 w-6 object-contain brightness-0 invert">
                 </div>
-                <!-- Logos Institucionais -->
-                <div class="branding-box h-[40px] ml-2">
+                <!-- Logos -->
+                <div class="branding-box h-[44px]">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
-                         alt="Brisanet" class="h-5 object-contain opacity-90">
-                    <div class="w-[1px] h-4 bg-gray-300"></div>
+                         alt="Brisanet" class="h-5 object-contain">
+                    <div class="w-[1px] h-4 bg-gray-400"></div>
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20Unibrisa.png" 
-                         alt="Unibrisa" class="h-6 object-contain opacity-90">
+                         alt="Unibrisa" class="h-6 object-contain">
                 </div>
             </div>
 
-            <!-- ETIQUETA DO MOMENTO -->
-            <div class="anim-slide-in" style="animation-delay: 0.1s;">
-                <div id="moment-label" class="moment-tag inline-block px-6 py-2 text-sm font-black uppercase tracking-widest leading-none flex items-center h-[36px]">
+            <!-- ETIQUETA / TAG -->
+            <div class="anim-fade-in" style="animation-delay: 0.1s;">
+                <div id="moment-label" class="moment-tag text-sm font-black uppercase tracking-widest mt-0 shadow-md">
                     AO VIVO | BRISACAST
                 </div>
             </div>
 
-            <!-- PANEL DE TÍTULO -->
-            <div class="glass-panel p-6 mt-[-1px] anim-slide-in" style="animation-delay: 0.2s;">
-                <h1 id="main-title" class="text-4xl font-black uppercase leading-tight drop-shadow-lg tracking-tight">
+            <!-- PAINEL DE TEXTO SÓLIDO (SEM BLUR) -->
+            <div class="solid-panel p-6 mt-[-1px] anim-fade-in" style="animation-delay: 0.2s;">
+                <h1 id="main-title" class="text-4xl font-black uppercase leading-tight tracking-tight text-white mb-1">
                     ABERTURA & VISÃO ESTRATÉGICA
                 </h1>
-                <p id="sub-title" class="text-xl font-medium text-gray-200 mt-1 italic opacity-95">
+                <p id="sub-title" class="text-xl font-medium text-gray-300 italic">
                     A trajetória da Unibrisa e o Ecossistema de Aprendizagem
                 </p>
             </div>
         </div>
 
-        <!-- RODAPÉ DESLIZANTE (TICKER) -->
-        <div class="absolute bottom-0 left-0 w-full h-14 bg-brisa-blue border-t-4 border-brisa-orange flex items-center overflow-hidden">
-            <div class="bg-brisa-orange h-full px-6 flex items-center z-10 font-black italic text-white shadow-lg text-xl">
+        <!-- TICKER / RODAPÉ -->
+        <div class="ticker-bar">
+            <div class="ticker-label text-white shadow-[5px_0_15px_rgba(0,0,0,0.3)]">
                 INFO
             </div>
-            <div class="flex-1 overflow-hidden relative h-full flex items-center">
-                <div id="ticker-text" class="ticker-content text-xl font-bold uppercase tracking-wide text-white">
-                    Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!
+            <div class="ticker-wrap">
+                <div class="ticker-track">
+                    <span class="ticker-item text-white" id="ticker-1">Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!</span>
+                    <span class="ticker-item text-white" id="ticker-2">Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!</span>
                 </div>
             </div>
         </div>
 
-        <!-- CONTROLES PARA O OPERADOR (50% esquerda, 50% direita) -->
+        <!-- CONTROLES PARA O OPERADOR -->
         <div class="absolute inset-0 z-50 flex pointer-events-none">
             <div onclick="changeMoment(-1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Voltar (Anterior)"></div>
             <div onclick="changeMoment(1)" class="w-1/2 h-full pointer-events-auto cursor-pointer" title="Avançar (Seguinte)"></div>
@@ -170,7 +212,6 @@
     </div>
 
     <script>
-        // Datos de TODOS os 10 momentos da transmisión
         const moments = [
             {
                 label: "AO VIVO | BRISACAST",
@@ -236,22 +277,24 @@
 
         let currentIndex = 0;
 
-        // Función para actualizar a interface
         function updateUI() {
             const m = moments[currentIndex];
             const gc = document.getElementById('gc-content');
             
-            gc.style.animation = 'none';
+            // Reiniciar Animação Visualmente
+            gc.classList.remove('anim-fade-in');
             void gc.offsetWidth; 
-            gc.style.animation = null;
+            gc.classList.add('anim-fade-in');
             
             document.getElementById('moment-label').innerText = m.label;
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
-            document.getElementById('ticker-text').innerText = m.ticker + " • " + m.ticker; 
+            
+            // Duplicar o texto do ticker para fazer o loop de forma fluida
+            document.getElementById('ticker-1').innerText = m.ticker;
+            document.getElementById('ticker-2').innerText = m.ticker;
         }
 
-        // Función para cambiar o momento
         function changeMoment(dir) {
             currentIndex += dir;
             if (currentIndex >= moments.length) currentIndex = 0;
@@ -259,28 +302,13 @@
             updateUI();
         }
 
-        // Atallos de teclado
+        // Navegação pelo Teclado
         window.addEventListener('keydown', (e) => {
             if (e.key === "ArrowRight") changeMoment(1);
             if (e.key === "ArrowLeft") changeMoment(-1);
         });
 
-        // Garantir proporção 1920x1080 e escalar no preview
-        function scaleToFit() {
-            const viewport = document.getElementById('main-container');
-            const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-            
-            // Centralizar caso o aspecto da janela non sexa 16:9
-            const left = (window.innerWidth - (1920 * scale)) / 2;
-            const top = (window.innerHeight - (1080 * scale)) / 2;
-            
-            viewport.style.transform = `scale(${scale})`;
-            viewport.style.left = `${left}px`;
-            viewport.style.top = `${top}px`;
-        }
-
-        window.addEventListener('resize', scaleToFit);
-        scaleToFit(); // Executar inicio
+        // Inicializar com o primeiro momento
         updateUI();
     </script>
 </body>
