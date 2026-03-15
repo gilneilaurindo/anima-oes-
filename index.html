@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GC Animado V3 - BrisaCast 2026 (Estilo Assertivo)</title>
+    <title>GC Animado V5 - Proporção Pânico</title>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -17,7 +20,7 @@
                         brisa: {
                             orange: '#FF7E05',
                             blue: '#2242D4',
-                            dark: '#0f172a' // Cor escura para o rodapé estilo Pânico
+                            dark: '#000000' /* Fundo preto puro para o rodapé estilo Pânico */
                         }
                     },
                     fontFamily: {
@@ -56,12 +59,14 @@
             display: flex;
             align-items: center;
             height: 100%;
+            /* Espaço à direita reservado para a logo Brisanet */
+            padding-right: 250px; 
         }
 
         .ticker-content {
             display: inline-block;
             white-space: nowrap;
-            animation: tickerScroll 40s linear infinite;
+            animation: tickerScroll 35s linear infinite;
             will-change: transform;
         }
 
@@ -78,7 +83,7 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-60px); }
+            from { opacity: 0; transform: translateX(-80px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
@@ -93,48 +98,76 @@
 
     <div class="viewport-16-9" id="main-container">
         
-        <div id="gc-content" class="absolute bottom-[50px] left-[5%] w-[90%] max-w-[1400px] flex flex-col items-start">
+        <!-- ELEMENTOS DO GC PRINCIPAL -->
+        <!-- bottom-[48px] garante que fique encostado exatamente em cima do Ticker -->
+        <div id="gc-content" class="absolute bottom-[48px] left-[5%] w-[88%] max-w-[1400px] flex flex-col items-start z-10">
             
-            <div class="flex items-stretch anim-slide-in" style="animation-delay: 0.1s;">
-                <div class="bg-brisa-orange text-white font-black text-2xl px-5 py-1.5 flex items-center justify-center tracking-wide uppercase">
+            <!-- LABELS SUPERIORES (Estilo Pânico: Grudados na caixa principal) -->
+            <div class="flex items-stretch anim-slide-in h-[34px]" style="animation-delay: 0.1s;">
+                <div class="bg-brisa-orange text-white font-black text-xl px-5 flex items-center justify-center tracking-widest uppercase">
                     AO VIVO
                 </div>
-                <div id="moment-label" class="bg-brisa-blue text-white font-bold text-2xl px-6 py-1.5 flex items-center justify-center tracking-wide uppercase">
-                    BRISACAST
+                <div id="moment-label" class="bg-brisa-blue text-white font-bold text-xl px-5 flex items-center justify-center tracking-widest uppercase">
+                    ABERTURA | 08:45 ÀS 09:30
                 </div>
             </div>
 
-            <div class="flex w-full bg-white shadow-2xl anim-slide-in" style="animation-delay: 0.2s;">
+            <!-- PAINEL PRINCIPAL (Branco Sólido - Proporção exata) -->
+            <div class="flex w-full bg-white shadow-[15px_15px_30px_rgba(0,0,0,0.5)] anim-slide-in h-[125px]" style="animation-delay: 0.2s;">
                 
-                <div class="py-3 px-6 border-r-[8px] border-brisa-orange flex flex-col justify-center items-center gap-3 min-w-[200px] bg-white">
-                    <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
-                         alt="Brisanet" class="h-6 object-contain">
+                <!-- CAIXA DE LOGOS UNIBRISA (Esquerda) -->
+                <div class="w-[200px] border-r-[5px] border-brisa-orange flex flex-col justify-center items-center bg-gray-50 shrink-0">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20Unibrisa.png" 
-                         alt="Unibrisa" class="h-7 object-contain">
+                         alt="Unibrisa" class="h-14 object-contain drop-shadow-sm">
                 </div>
 
-                <div class="flex-1 py-4 px-6 flex flex-col justify-center overflow-hidden">
-                    <h1 id="main-title" class="text-[3.5rem] font-black uppercase text-brisa-blue leading-none tracking-tighter truncate">
-                        ABERTURA & VISÃO ESTRATÉGICA
+                <!-- CAIXA DE TEXTOS (Direita) -->
+                <div class="flex-1 py-1 px-6 flex flex-col justify-center overflow-hidden border-b-[5px] border-brisa-blue">
+                    
+                    <!-- TÍTULO PRINCIPAL (GIGANTE - IGUAL O NOME DO CAIADO) -->
+                    <h1 id="main-title" class="text-[3.5rem] font-black uppercase text-brisa-blue leading-[1.0] tracking-tighter truncate">
+                        VISÃO ESTRATÉGICA & EMBAIXADORAS
                     </h1>
-                    <p id="sub-title" class="text-2xl font-bold text-brisa-blue mt-1 uppercase tracking-tight truncate">
+                    
+                    <!-- SUBTÍTULO (MENOR LOGO ABAIXO) -->
+                    <p id="sub-title" class="text-[2rem] font-extrabold text-brisa-blue mt-0 uppercase tracking-tight truncate">
                         A trajetória da Unibrisa e o Ecossistema de Aprendizagem
                     </p>
+
+                    <!-- INFORMAÇÕES EXTRAS (Convidados bem pequenos para não quebrar a proporção) -->
+                    <p id="guests-text" class="text-[1.1rem] font-bold text-gray-500 uppercase tracking-widest truncate mt-1">
+                        <i class="fa-solid fa-microphone-lines mr-1 text-brisa-orange"></i> Valcerlan Almeida, Flávia Paulino e Diretoria
+                    </p>
+
                 </div>
             </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 w-full h-[50px] bg-black border-t-4 border-brisa-dark flex items-center">
-            <div class="bg-brisa-orange h-full px-6 flex items-center z-10 font-black text-xl text-white tracking-widest uppercase">
-                INFO
+        <!-- RODAPÉ (TICKER) -->
+        <!-- h-[48px] para ficar mais estreito, proporção exata da referência -->
+        <div class="absolute bottom-0 left-0 w-full h-[48px] bg-brisa-dark border-t-[3px] border-brisa-orange flex items-center z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+            
+            <!-- LABEL INFO (Esquerda - Escuro igual ao 'PROGRAMAPANICO') -->
+            <div class="bg-brisa-orange h-full px-8 flex items-center justify-center z-30 border-r-2 border-brisa-dark min-w-[200px]">
+                <span class="font-black text-[1.3rem] text-white tracking-widest uppercase">UNIBRISA</span>
             </div>
-            <div class="ticker-wrapper">
-                <div id="ticker-text" class="ticker-content text-xl font-bold uppercase text-white pr-20 tracking-wide">
+            
+            <!-- TEXTO RODANDO (Centro) -->
+            <div class="ticker-wrapper relative bg-black">
+                <div id="ticker-text" class="ticker-content text-[1.4rem] font-bold uppercase text-white tracking-wider">
                     Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!
                 </div>
             </div>
+
+            <!-- BLOCO DA LOGO BRISANET (Direita Fixa - Fundo #2242D4 Sem Redes Sociais) -->
+            <div class="absolute right-0 top-0 h-full bg-brisa-blue flex items-center justify-center px-10 border-l-[3px] border-white z-40 min-w-[250px]">
+                <!-- Logo Brisanet Branco -->
+                <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
+                     alt="Brisanet" class="h-6 brightness-0 invert object-contain">
+            </div>
         </div>
 
+        <!-- CONTROLES (Invisíveis) -->
         <div class="click-zone zone-left" onclick="changeMoment(-1)" title="Anterior"></div>
         <div class="click-zone zone-center" onclick="toggleTicker()" title="Pausar/Reproduzir Rodapé"></div>
         <div class="click-zone zone-right" onclick="changeMoment(1)" title="Próximo"></div>
@@ -142,37 +175,49 @@
     </div>
 
     <script>
-        // Dados dos painéis (Intocados)
+        // Dados puxados da sua programação oficial
         const moments = [
             {
-                label: "AO VIVO | BRISACAST",
-                title: "ABERTURA & VISÃO ESTRATÉGICA",
+                label: "ABERTURA | 08:45 ÀS 09:30",
+                title: "VISÃO ESTRATÉGICA & EMBAIXADORAS",
                 sub: "A trajetória da Unibrisa e o Ecossistema de Aprendizagem",
-                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios! • Sejam bem-vindos à Positivação Unibrisa 2026!"
+                guests: "MVV, Valcerlan Almeida, Flávia Paulino e Diretoria",
+                ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado • Sejam bem-vindos à Positivação Unibrisa 2026!"
             },
             {
-                label: "PAINEL 01 | CIBERSEGURANÇA",
-                title: "CIBERSEGURANÇA NO GRUPO BRISANET",
-                sub: "Valcerlan Almeida, Flavia Paulino, Lucas Kennedy e William Heller",
-                ticker: "Fique atento às dicas de segurança digital! • Próximo painel às 10h30: Compliance e Código de Ética • Use a hashtag #ConectadosPeloAprendizado"
+                label: "PAINEL 01 | 09:30 ÀS 10:30",
+                title: "CIBERSEGURANÇA NO GRUPO",
+                sub: "Proteção de dados e infraestrutura tecnológica",
+                guests: "Valcerlan Almeida, Flavia Paulino, Lucas Kennedy e William Heller",
+                ticker: "Fique atento às dicas de segurança digital! • Anote as orientações para o Quiz de hoje • Use a hashtag #ConectadosPeloAprendizado"
             },
             {
-                label: "PAINEL 03 | GOOGLE CLOUD",
-                title: "PRODUTIVIDADE COM GEMINI E WORKSPACE",
-                sub: "Convidados: Natan Valenciano e Igor Carolino",
+                label: "PAINEL 02 | 10:30 ÀS 12:00",
+                title: "COMPLIANCE + CÓDIGO DE ÉTICA",
+                sub: "Lançamento Oficial do Código de Ética de Bolso",
+                guests: "Valcerlan, Flavia, David, Juliana, Luciana e João Paulo",
+                ticker: "Conheça as novas diretrizes de Compliance da Brisanet! • Pausa para o almoço das 12:00 às 13:30. Voltaremos com Google Cloud!"
+            },
+            {
+                label: "PAINEL 03 | 13:30 ÀS 14:30",
+                title: "PRODUTIVIDADE COM GEMINI",
+                sub: "Google Cloud e Workspace no dia a dia da Brisanet",
+                guests: "Natan Valenciano e Igor Carolino (Especialistas Cloud)",
                 ticker: "Descubra como a IA pode acelerar sua rotina! 💡 • Confira os Cursos Plus Brisa na plataforma • Fique ligado nos quizzes para pontuar!"
             },
             {
-                label: "MARATONA DO CONHECIMENTO",
-                title: "ACELERE A SUA CARREIRA!",
-                sub: "5 dias de imersão na plataforma Unibrisa",
-                ticker: "Realize os cursos, garanta a melhor pontuação nos Quizzes e suba no Ranking Público! 🏆 • As áreas com 100% de conclusão serão reconhecidas!"
+                label: "PAINEL 04 | 15:00 ÀS 16:30",
+                title: "EDUCAÇÃO FINANCEIRA",
+                sub: "Planejamento e inteligência financeira para colaboradores",
+                guests: "Ângelo Pessoa e Romário Aquino",
+                ticker: "Dicas essenciais para organizar sua vida financeira! • Logo mais, às 16:30, teremos os Resultados dos Quizzes do dia."
             },
             {
-                label: "RESULTADOS OFICIAIS",
-                title: "TOP 5 APRENDENTES E DESTAQUES",
-                sub: "Conheça a Regional Destaque de hoje!",
-                ticker: "Parabéns a todos os participantes! 🎉 • Continue a sua jornada no Universo Brisa • Vemo-nos amanhã para mais conhecimento!"
+                label: "RESULTADOS | 16:30 ÀS 16:50",
+                title: "RESULTADOS DOS QUIZZES",
+                sub: "Top 5 Aprendentes e Anúncio da Regional Destaque",
+                guests: "Valcerlan Almeida, Flávia Paulino e Facilitadores",
+                ticker: "Parabéns a todos os participantes! 🎉 • As áreas com 100% de conclusão do curso de cibersegurança foram reconhecidas! • Continue sua jornada."
             }
         ];
 
@@ -189,13 +234,14 @@
             void gc.offsetWidth; 
             gc.style.animation = null;
             
-            // Ajustar o texto
+            // Atualizar textos
             document.getElementById('moment-label').innerText = m.label;
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
+            document.getElementById('guests-text').innerHTML = `<i class="fa-solid fa-microphone-lines mr-1 text-brisa-orange"></i> ` + m.guests;
             
-            // Repetir o texto para o loop do ticker
-            ticker.innerText = m.ticker + "          •          " + m.ticker;
+            // Repetir o texto para o loop do ticker ficar fluído
+            ticker.innerText = m.ticker + "          •          " + m.ticker + "          •          " + m.ticker;
             
             // Garantir que o ticker volta a rodar ao mudar de slide
             ticker.classList.remove('paused');
