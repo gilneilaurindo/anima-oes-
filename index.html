@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GC Animado V7 - Layout Exato Pânico</title>
+    <title>GC Animado V8 - Ajustes Finais</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,7 +20,8 @@
                         brisa: {
                             orange: '#FF7E05',
                             blue: '#2242D4',
-                            black: '#0a0a0a'
+                            black: '#0a0a0a',
+                            red: '#FF5022' /* Nova cor para o fundo da Brisanet */
                         }
                     },
                     fontFamily: {
@@ -52,7 +53,7 @@
             overflow: hidden;
         }
 
-        /* Animação do Letreiro */
+        /* Animação do Letreiro (Corrigida para fluxo contínuo e imediato) */
         .ticker-wrapper {
             flex: 1;
             overflow: hidden;
@@ -64,13 +65,15 @@
         .ticker-content {
             display: inline-block;
             white-space: nowrap;
-            animation: tickerScroll 35s linear infinite;
+            /* Aumentei o tempo para 60s para passar devagar e dar tempo de ler */
+            animation: tickerScroll 60s linear infinite;
             will-change: transform;
         }
 
+        /* O truque do seamless loop: Começa visível (0) e roda até meio (-50%) */
         @keyframes tickerScroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .paused { animation-play-state: paused; }
@@ -97,19 +100,16 @@
     <div class="viewport-16-9" id="main-container">
         
         <!-- BLOCO ÚNICO DO GC (A Grelha Perfeita do Pânico) -->
-        <!-- Encostado abaixo com uma ligeira margem -->
         <div id="gc-content" class="absolute bottom-[4%] left-0 right-0 mx-auto w-[94%] max-w-[1700px] flex flex-col z-10 shadow-[25px_25px_40px_rgba(0,0,0,0.6)] anim-slide-in">
             
             <!-- ================= LINHA 1: LABELS SUPERIORES ================= -->
             <div class="flex h-[42px] w-full">
-                <!-- Label Esquerda (O "AO VIVO" - Cor Laranja Unibrisa) -->
-                <!-- A largura w-[320px] define a coluna esquerda inteira -->
+                <!-- Label Esquerda -->
                 <div class="w-[320px] bg-brisa-orange text-white font-black text-[1.6rem] flex items-center justify-center tracking-[0.15em] uppercase shrink-0">
                     AO VIVO
                 </div>
-                <!-- Label Direita (O nome do programa - Cor Azul Unibrisa) -->
-                <!-- As aspas ("") dão o toque idêntico ao "ENTREVISTA EM PÂNICO" -->
-                <div id="moment-label" class="flex-1 bg-brisa-blue text-white font-bold text-[1.6rem] flex items-center px-6 tracking-widest uppercase">
+                <!-- Label Direita -->
+                <div id="moment-label" class="flex-1 bg-brisa-orange text-white font-bold text-[1.6rem] flex items-center px-6 tracking-widest uppercase">
                     "BRISACAST - ABERTURA"
                 </div>
             </div>
@@ -117,23 +117,22 @@
             <!-- ================= LINHA 2: CAIXA PRINCIPAL BRANCA ================= -->
             <div class="flex h-[145px] w-full bg-white">
                 
-                <!-- Coluna Esquerda: Caixa da Logo Unibrisa -->
-                <!-- Mantém os exatos w-[320px] e uma borda direita preta grossa para dividir -->
+                <!-- Coluna Esquerda: Caixa da Logo Unibrisa (Logo menor) -->
                 <div class="w-[320px] bg-white border-r-[8px] border-brisa-black flex flex-col justify-center items-center shrink-0 z-10">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20Unibrisa.png" 
-                         alt="Unibrisa" class="h-[75px] object-contain">
+                         alt="Unibrisa" class="h-[50px] object-contain"> <!-- Reduzido para h-[50px] -->
                 </div>
 
-                <!-- Coluna Direita: Textos Principais Gigantes -->
+                <!-- Coluna Direita: Textos Principais -->
                 <div class="flex-1 py-1 px-8 flex flex-col justify-center overflow-hidden z-10">
                     
-                    <!-- Título Azul Gigante (Equivalente ao INSTAGRAM: @RONALDOCAIADO) -->
-                    <h1 id="main-title" class="text-[4rem] font-black text-brisa-blue uppercase leading-[0.95] tracking-tighter truncate">
+                    <!-- Título Destaque (Agora Laranja FF7E05) -->
+                    <h1 id="main-title" class="text-[4rem] font-black text-brisa-orange uppercase leading-[0.95] tracking-tighter truncate">
                         VISÃO ESTRATÉGICA & EMBAIXADORAS
                     </h1>
                     
-                    <!-- Subtítulo Laranja (Equivalente ao texto menor do cargo do Caiado) -->
-                    <p id="sub-title" class="text-[2.2rem] font-extrabold text-brisa-orange uppercase leading-tight tracking-tight truncate mt-1">
+                    <!-- Subtítulo (Passou a Azul para contraste com o Laranja) -->
+                    <p id="sub-title" class="text-[2.2rem] font-extrabold text-brisa-blue uppercase leading-tight tracking-tight truncate mt-1">
                         A trajetória da Unibrisa e o Ecossistema de Aprendizagem
                     </p>
 
@@ -143,11 +142,9 @@
             <!-- ================= LINHA 3: RODAPÉ PRETO (TICKER) ================= -->
             <div class="flex h-[50px] w-full bg-brisa-black">
                 
-                <!-- Coluna Esquerda: Label (Equivalente ao PROGRAMAPANICO) -->
-                <!-- Mantém os w-[320px] e a mesma borda preta (aqui invisível, mas mantém a grelha) -->
-                <div class="w-[320px] bg-brisa-black flex items-center justify-center border-r-[8px] border-brisa-black shrink-0">
-                    <!-- Um toque de Laranja no texto para destacar no fundo preto -->
-                    <span class="font-black text-[1.2rem] text-brisa-orange tracking-[0.15em] uppercase">PROGRAMA POSITIVAÇÃO</span>
+                <!-- Coluna Esquerda: Label POSITIVAÇÃO -->
+                <div class="w-[320px] bg-brisa-orange flex items-center justify-center border-r-[8px] border-brisa-black shrink-0">
+                    <span class="font-black text-[1.4rem] text-white tracking-[0.15em] uppercase">POSITIVAÇÃO</span>
                 </div>
                 
                 <!-- Coluna Centro: Letreiro Animado -->
@@ -157,8 +154,8 @@
                     </div>
                 </div>
 
-                <!-- Coluna Direita: Logo Brisanet (Exatamente como pedido: fundo 2242D4, só a logo) -->
-                <div class="w-[280px] bg-brisa-blue flex items-center justify-center shrink-0 z-20">
+                <!-- Coluna Direita: Logo Brisanet (Fundo Vermelho/Laranja FF5022) -->
+                <div class="w-[280px] bg-brisa-red flex items-center justify-center shrink-0 z-20">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
                          alt="Brisanet" class="h-[28px] brightness-0 invert object-contain">
                 </div>
@@ -232,8 +229,12 @@
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
             
-            // Repetir o texto para o loop do ticker ficar fluído
-            ticker.innerText = m.ticker + "          •          " + m.ticker + "          •          " + m.ticker;
+            // Truque para o ticker nunca ficar em branco e não demorar para aparecer
+            // Repetimos o texto 10 vezes. A animação viaja de 0 a 50% de todo este bloco gigante,
+            // criando um "loop invisível" imediato.
+            const separator = "          •          ";
+            const repeatedText = (m.ticker + separator).repeat(10);
+            ticker.innerText = repeatedText;
             
             // Garantir que o ticker volta a rodar ao mudar de slide
             ticker.classList.remove('paused');
