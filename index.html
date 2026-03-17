@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GC Animado V8 - Ajustes Finais</title>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -18,7 +21,7 @@
                             orange: '#FF7E05',
                             blue: '#2242D4',
                             black: '#0a0a0a',
-                            red: '#FF5022'
+                            red: '#FF5022' /* Nova cor para o fundo da Brisanet */
                         }
                     },
                     fontFamily: {
@@ -34,10 +37,12 @@
             margin: 0; padding: 0;
             width: 100vw; height: 100vh;
             overflow: hidden;
+            /* Fundo verde para Chroma Key */
             background-color: #00FF00; 
             font-family: 'Figtree', sans-serif;
         }
 
+        /* Contentor 16:9 */
         .viewport-16-9 {
             position: relative;
             width: 100vw;
@@ -48,6 +53,7 @@
             overflow: hidden;
         }
 
+        /* Animação do Letreiro (Corrigida para fluxo contínuo e imediato) */
         .ticker-wrapper {
             flex: 1;
             overflow: hidden;
@@ -59,10 +65,12 @@
         .ticker-content {
             display: inline-block;
             white-space: nowrap;
+            /* Aumentei o tempo para 60s para passar devagar e dar tempo de ler */
             animation: tickerScroll 60s linear infinite;
             will-change: transform;
         }
 
+        /* O truque do seamless loop: Começa visível (0) e roda até meio (-50%) */
         @keyframes tickerScroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -70,6 +78,7 @@
 
         .paused { animation-play-state: paused; }
 
+        /* Animações de entrada */
         .anim-slide-in {
             animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -79,6 +88,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Zonas de clique para navegação invisível */
         .click-zone { position: absolute; top: 0; height: 100%; z-index: 50; cursor: pointer; }
         .zone-left { left: 0; width: 25%; }
         .zone-center { left: 25%; width: 50%; }
@@ -89,58 +99,79 @@
 
     <div class="viewport-16-9" id="main-container">
         
+        <!-- BLOCO ÚNICO DO GC (A Grelha Perfeita do Pânico) -->
         <div id="gc-content" class="absolute bottom-[4%] left-0 right-0 mx-auto w-[94%] max-w-[1700px] flex flex-col z-10 shadow-[25px_25px_40px_rgba(0,0,0,0.6)] anim-slide-in">
             
+            <!-- ================= LINHA 1: LABELS SUPERIORES ================= -->
             <div class="flex h-[42px] w-full">
+                <!-- Label Esquerda -->
                 <div class="w-[320px] bg-brisa-orange text-white font-black text-[1.6rem] flex items-center justify-center tracking-[0.15em] uppercase shrink-0">
                     AO VIVO
                 </div>
+                <!-- Label Direita -->
                 <div id="moment-label" class="flex-1 bg-brisa-orange text-white font-bold text-[1.6rem] flex items-center px-6 tracking-widest uppercase">
                     "BRISACAST - ABERTURA"
                 </div>
             </div>
 
+            <!-- ================= LINHA 2: CAIXA PRINCIPAL BRANCA ================= -->
             <div class="flex h-[145px] w-full bg-white">
+                
+                <!-- Coluna Esquerda: Caixa da Logo Unibrisa (Logo menor) -->
                 <div class="w-[320px] bg-white border-r-[8px] border-brisa-black flex flex-col justify-center items-center shrink-0 z-10">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20Unibrisa.png" 
-                         alt="Unibrisa" class="h-[50px] object-contain">
+                         alt="Unibrisa" class="h-[50px] object-contain"> <!-- Reduzido para h-[50px] -->
                 </div>
 
+                <!-- Coluna Direita: Textos Principais -->
                 <div class="flex-1 py-1 px-8 flex flex-col justify-center overflow-hidden z-10">
+                    
+                    <!-- Título Destaque (Agora Laranja FF7E05) -->
                     <h1 id="main-title" class="text-[4rem] font-black text-brisa-orange uppercase leading-[0.95] tracking-tighter truncate">
                         VISÃO ESTRATÉGICA & EMBAIXADORES DA MARCA
                     </h1>
+                    
+                    <!-- Subtítulo (Passou a Azul para contraste com o Laranja) -->
                     <p id="sub-title" class="text-[2.2rem] font-extrabold text-brisa-blue uppercase leading-tight tracking-tight truncate mt-1">
                         A trajetória da Unibrisa e o Ecossistema de Aprendizagem
                     </p>
+
                 </div>
             </div>
 
+            <!-- ================= LINHA 3: RODAPÉ PRETO (TICKER) ================= -->
             <div class="flex h-[50px] w-full bg-brisa-black">
+                
+                <!-- Coluna Esquerda: Label POSITIVAÇÃO -->
                 <div class="w-[320px] bg-brisa-orange flex items-center justify-center border-r-[8px] border-brisa-black shrink-0">
                     <span class="font-black text-[1.4rem] text-white tracking-[0.15em] uppercase">POSITIVAÇÃO</span>
                 </div>
                 
+                <!-- Coluna Centro: Letreiro Animado -->
                 <div class="ticker-wrapper bg-brisa-black">
                     <div id="ticker-text" class="ticker-content text-[1.5rem] font-bold uppercase text-white tracking-widest px-4 flex items-center h-full">
                         Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado e concorra a prêmios!
                     </div>
                 </div>
 
+                <!-- Coluna Direita: Logo Brisanet (Fundo Vermelho/Laranja FF5022) -->
                 <div class="w-[280px] bg-brisa-red flex items-center justify-center shrink-0 z-20">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
                          alt="Brisanet" class="h-[28px] brightness-0 invert object-contain">
                 </div>
             </div>
+
         </div>
 
-        <div class="click-zone zone-left" onclick="changeMoment(-1)"></div>
-        <div class="click-zone zone-center" onclick="toggleTicker()"></div>
-        <div class="click-zone zone-right" onclick="changeMoment(1)"></div>
+        <!-- CONTROLES (Invisíveis) -->
+        <div class="click-zone zone-left" onclick="changeMoment(-1)" title="Anterior"></div>
+        <div class="click-zone zone-center" onclick="toggleTicker()" title="Pausar/Reproduzir Rodapé"></div>
+        <div class="click-zone zone-right" onclick="changeMoment(1)" title="Próximo"></div>
         
     </div>
 
     <script>
+        // Dados puxados da sua programação oficial
         const moments = [
             {
                 label: '"BRISACAST - ABERTURA"',
@@ -188,18 +219,24 @@
             const gc = document.getElementById('gc-content');
             const ticker = document.getElementById('ticker-text');
             
+            // Reiniciar animação do painel principal
             gc.style.animation = 'none';
             void gc.offsetWidth; 
             gc.style.animation = null;
             
+            // Atualizar textos
             document.getElementById('moment-label').innerText = m.label;
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
             
+            // Truque para o ticker nunca ficar em branco e não demorar para aparecer
+            // Repetimos o texto 10 vezes. A animação viaja de 0 a 50% de todo este bloco gigante,
+            // criando um "loop invisível" imediato.
             const separator = "          •          ";
             const repeatedText = (m.ticker + separator).repeat(10);
             ticker.innerText = repeatedText;
             
+            // Garantir que o ticker volta a rodar ao mudar de slide
             ticker.classList.remove('paused');
             ticker.style.animation = 'none';
             void ticker.offsetWidth;
@@ -222,6 +259,7 @@
             updateUI();
         }
 
+        // Navegação por teclado
         window.addEventListener('keydown', (e) => {
             if (e.key === "ArrowRight") changeMoment(1);
             if (e.key === "ArrowLeft") changeMoment(-1);
@@ -231,6 +269,7 @@
             }
         });
 
+        // Inicializar
         updateUI();
     </script>
 </body>
