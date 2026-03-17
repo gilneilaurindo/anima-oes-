@@ -124,15 +124,16 @@
                 </div>
 
                 <!-- Coluna Direita: Textos Principais -->
-                <div class="flex-1 py-1 px-8 flex flex-col justify-center overflow-hidden z-10">
+                <!-- Removido o overflow-hidden para não cortar a base das letras e ajustado padding -->
+                <div class="flex-1 py-2 px-8 flex flex-col justify-center z-10">
                     
-                    <!-- Título Destaque (Ajustado tamanho e removido truncate para permitir leitura completa) -->
-                    <h1 id="main-title" class="text-[2.5rem] lg:text-[3rem] 2xl:text-[3.4rem] font-black text-brisa-orange uppercase leading-[1] tracking-tighter line-clamp-2">
+                    <!-- Título Destaque (Tamanhos ajustados para caberem com segurança em telas menores) -->
+                    <h1 id="main-title" class="text-[2.2rem] lg:text-[2.6rem] 2xl:text-[3rem] font-black text-brisa-orange uppercase leading-[0.95] tracking-tighter">
                         VISÃO ESTRATÉGICA & EMBAIXADORES DA MARCA
                     </h1>
                     
                     <!-- Subtítulo -->
-                    <p id="sub-title" class="text-[1.5rem] lg:text-[1.8rem] 2xl:text-[2.1rem] font-extrabold text-brisa-blue uppercase leading-tight tracking-tight line-clamp-2 mt-1">
+                    <p id="sub-title" class="text-[1.3rem] lg:text-[1.6rem] 2xl:text-[1.9rem] font-extrabold text-brisa-blue uppercase leading-tight tracking-tight mt-1">
                         A trajetória da Unibrisa e o Ecossistema de Aprendizagem
                     </p>
 
@@ -175,7 +176,7 @@
         const moments = [
             {
                 label: '"BRISACAST - ABERTURA"',
-                title: "VISÃO ESTRATÉGICA E EMBAIXADORES DA MARCA",
+                title: "VISÃO ESTRATÉGICA & EMBAIXADORES DA MARCA",
                 sub: "Valcerlan Almeida, Flávia Paulino e Diretoria",
                 ticker: "Participe do nosso sorteio! Poste uma foto assistindo a live com a hashtag #ConectadosPeloAprendizado • Sejam bem-vindos à Positivação Unibrisa 2026!"
             },
