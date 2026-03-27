@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GC Animado - Layout Quadrado Convenção 2026</title>
+    <title>GC Animado - Layout Estratégico Convenção 2026</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,8 +18,8 @@
                 extend: {
                     colors: {
                         brisa: {
-                            orange: '#FF5022', /* Atualizado conforme seu pedido */
-                            blue: '#FF5022',   /* Atualizado conforme seu pedido */
+                            orange: '#FF5022', 
+                            blue: '#FF5022',   
                             dark: '#000000'
                         }
                     },
@@ -63,7 +63,7 @@
         .ticker-content {
             display: inline-block;
             white-space: nowrap;
-            animation: tickerScroll 30s linear infinite;
+            animation: tickerScroll 25s linear infinite;
         }
 
         /* Animações de entrada */
@@ -78,7 +78,7 @@
 
         /* Sombra do GC */
         .gc-shadow {
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -87,54 +87,62 @@
     <div class="viewport-16-9" id="main-container">
         
         <!-- ESTRUTURA DO GC QUADRADO -->
-        <div id="gc-main" class="absolute bottom-16 left-20 w-[1400px] anim-slide-up">
+        <div id="gc-main" class="absolute bottom-16 left-20 w-[1450px] anim-slide-up">
             
-            <div class="flex h-[320px] gc-shadow overflow-hidden">
+            <div class="flex h-[340px] gc-shadow overflow-hidden">
                 
-                <!-- COLUNA ESQUERDA (LARANJA) -->
-                <div class="w-[350px] bg-brisa-orange flex flex-col justify-between items-center py-6 text-white border-r-4 border-black/10">
-                    <div class="text-3xl font-black uppercase tracking-[0.2em]">AO VIVO</div>
-                    
-                    <div class="px-8 w-full">
-                        <!-- Nova Logo da Convenção de Líderes 2026 (Branca/Invertida) -->
-                        <img src="https://raw.githubusercontent.com/gilneilaurindo/Conven-odeL-deres2026/main/logo%20conven%C3%A7%C3%A3o%20de%20lideres.png" 
-                             alt="Convenção" class="w-full object-contain brightness-0 invert">
+                <!-- COLUNA ESQUERDA (BRANDING & PROGRESSO) -->
+                <div class="w-[360px] bg-brisa-orange flex flex-col justify-between items-center py-8 text-white border-r-4 border-black/10">
+                    <div class="flex flex-col items-center">
+                        <div class="text-2xl font-black uppercase tracking-[0.25em] opacity-80">AO VIVO</div>
+                        <!-- CONTADOR DE PAINÉIS -->
+                        <div id="panel-counter" class="mt-2 bg-black/20 px-4 py-1 rounded-full text-xl font-bold border border-white/20">
+                            01 | 10
+                        </div>
                     </div>
                     
-                    <div class="text-3xl font-black uppercase tracking-widest">CONVENÇÃO</div>
+                    <div class="px-6 w-full flex justify-center">
+                        <img src="https://raw.githubusercontent.com/gilneilaurindo/Conven-odeL-deres2026/main/logo%20conven%C3%A7%C3%A3o%20de%20lideres.png" 
+                             alt="Convenção de Líderes 2026" class="w-full max-h-[160px] object-contain brightness-0 invert">
+                    </div>
+
+                    <div class="text-2xl font-black uppercase tracking-widest opacity-80">CONVENÇÃO</div>
                 </div>
 
-                <!-- COLUNA DIREITA (CONTEÚDO BRANCO) -->
-                <div class="flex-1 bg-white flex flex-col px-10 py-6 justify-center">
-                    <!-- TAG SUPERIOR -->
-                    <div id="moment-label" class="text-gray-500 text-2xl font-black uppercase tracking-tight mb-4 border-b-2 border-gray-100 pb-2">
-                        08:00 - 08:30 | DIA 1
+                <!-- COLUNA DIREITA (CONTEÚDO ESTRATÉGICO BRANCO) -->
+                <div class="flex-1 bg-white flex flex-col px-12 py-8 justify-center border-r-8 border-brisa-orange">
+                    <!-- TAG SUPERIOR / TEMA -->
+                    <div id="moment-label" class="text-brisa-orange text-2xl font-black uppercase tracking-widest mb-4 border-b-2 border-gray-100 pb-3 flex items-center gap-3">
+                        <i class="fa-solid fa-compass"></i> <span>DIREÇÃO ESTRATÉGICA</span>
                     </div>
                     
                     <!-- TÍTULO PRINCIPAL -->
-                    <h1 id="main-title" class="text-brisa-orange text-6xl font-black uppercase leading-[1.1] tracking-tighter mb-4">
-                        RECEPÇÃO: CARTÃO DE EMBARQUE
+                    <h1 id="main-title" class="text-brisa-orange text-[58px] font-black uppercase leading-[1] tracking-tighter mb-5 drop-shadow-sm">
+                        ESTRATÉGIA CLARA, EXECUÇÃO FALHA
                     </h1>
                     
-                    <!-- SUBTÍTULO / PARTICIPANTES -->
-                    <p id="sub-title" class="text-gray-800 text-4xl font-bold uppercase tracking-tight">
-                        Boas-vindas e integração da nossa tripulação
+                    <!-- SUBTÍTULO -->
+                    <p id="sub-title" class="text-brisa-blue text-4xl font-extrabold uppercase tracking-tight leading-none italic opacity-90">
+                        O GAP ESTÁ NA EXECUÇÃO DESALINHADA
                     </p>
                 </div>
             </div>
 
             <!-- BARRA DO TICKER (INFERIOR) -->
-            <div class="h-20 bg-black flex items-center overflow-hidden border-t-2 border-white/10">
+            <div class="h-20 bg-black flex items-center overflow-hidden border-t-4 border-brisa-orange">
+                <div class="bg-brisa-orange h-full px-8 flex items-center z-10 font-black italic text-white text-2xl border-r border-white/20">
+                    INSIGHT
+                </div>
                 <div class="flex-1 overflow-hidden relative h-full flex items-center">
-                    <div id="ticker-text" class="ticker-content text-2xl font-bold uppercase tracking-wide text-white">
-                        Bem-vindos à Convenção de Líderes 2026! • Prepare-se para uma jornada incrível
+                    <div id="ticker-text" class="ticker-content text-[26px] font-bold uppercase tracking-wide text-white">
+                        “O problema não está nas áreas. Está ENTRE as áreas.” • Menos defesa, mais construção. • O futuro depende da execução — juntos.
                     </div>
                 </div>
                 
                 <!-- LOGO BRISANET NO TICKER -->
-                <div class="bg-brisa-orange h-full px-12 flex items-center">
+                <div class="bg-white h-full px-12 flex items-center">
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/Positiva-o-Unibrisa/main/logo%20brisanet.png" 
-                         alt="Brisanet" class="h-8 object-contain brightness-0 invert">
+                         alt="Brisanet" class="h-8 object-contain">
                 </div>
             </div>
         </div>
@@ -147,258 +155,66 @@
     </div>
 
     <script>
-        // Dados de TODOS os momentos do evento Convenção de Líderes 2026
         const moments = [
-            // DIA 1 - MANHÃ
             {
-                label: "08:00 - 08:30 | DIA 1",
-                title: "RECEPÇÃO: CARTÃO DE EMBARQUE",
-                sub: "Boas-vindas e integração da nossa tripulação",
-                ticker: "Bem-vindos à Convenção de Líderes 2026! • Prepare-se para uma jornada incrível"
+                label: "CONVENÇÃO DE LÍDERES 2026",
+                title: "ESTRATÉGIA CLARA, EXECUÇÃO FALHA",
+                sub: "DA ESTRATÉGIA À EXECUÇÃO COMPARTILHADA",
+                ticker: "O problema NÃO é estratégia — é execução. • A direção nunca mudou, o gap está no alinhamento. • O futuro depende de fazermos juntos."
             },
             {
-                label: "08:30 - 08:40 | DIA 1",
-                title: "BOAS-VINDAS E SEGURANÇA",
-                sub: "Alinhamento dos objetivos do dia",
-                ticker: "Atenção tripulação, coloquem os cintos! • Nosso voo vai decolar em instantes"
+                label: "FACILITAÇÃO ESTRATÉGICA",
+                title: "TRANSFORMAÇÃO ORGANIZACIONAL",
+                sub: "SUELLEN IRACI & KELLY RODRIGUES",
+                ticker: "Especialistas em desenvolvimento de lideranças e equipes. • Foco em clareza de contexto e visão do cliente."
             },
             {
-                label: "08:40 - 09:25 | DIA 1",
-                title: "DIREÇÃO ESTRATÉGICA",
-                sub: "Roberto, Jordão, João Estevam e Conselheiros",
-                ticker: "Clareza estratégica e Trade-offs • Onde estamos e para onde vamos em 2026"
+                label: "ALERTA CRÍTICO: SITUAÇÃO ATUAL",
+                title: "META: 100K | REALIDADE: 30K",
+                sub: "O MAIOR RISCO DA COMPANHIA",
+                ticker: "O plano não está em linha com a execução. • Resultado atual é cerca de 1/4 do esperado. • Precisamos de alinhamento urgente."
             },
             {
-                label: "09:25 - 09:30 | DIA 1",
-                title: "VÍDEO DE ABERTURA",
-                sub: "Inspiração e engajamento",
-                ticker: "Voo Brisanet 2026 • Juntos vamos mais longe! • Convenção de Líderes"
+                label: "OBJETIVO: CRESCIMENTO",
+                title: "CRESCER NÃO É OPCIONAL",
+                sub: "OBRIGAÇÃO E SOBREVIVÊNCIA DO MODELO",
+                ticker: "Compromisso regulatório até 2030. • Churn não é problema isolado, é consequência de jornada ruim. • Responsabilidade de todos."
             },
             {
-                label: "09:30 - 09:45 | DIA 1",
-                title: "EMBARQUE DA TRIPULAÇÃO",
-                sub: "Speed date e Integração de grupos",
-                ticker: "Momento de conexão e networking • Conheça seus parceiros de jornada"
+                label: "DIRECIONAMENTO: QUALIDADE",
+                title: "CRESCIMENTO COM QUALIDADE",
+                sub: "PORTABILIDADE, COMBO 5G E BASE ATUAL",
+                ticker: "Definir o que será priorizado e o que será DESPRIORIZADO. • Fazer trade-offs entre áreas pensando no todo."
             },
             {
-                label: "09:45 - 10:10 | DIA 1",
-                title: "CENÁRIOS DE MERCADO – BLOCO A",
-                sub: "Luciana, Romário e Glauber",
-                ticker: "Entendendo o nosso mercado para tomarmos as melhores decisões estratégicas"
+                label: "PILARES ESTRATÉGICOS",
+                title: "CULTURA DE ALTA PERFORMANCE",
+                sub: "REESTRUTURAÇÃO E EFICIÊNCIA",
+                ticker: "Revisão de indicadores e criação de novos canais. • Estratégia precisa descer para toda a operação."
             },
             {
-                label: "10:10 - 10:30 | DIA 1",
-                title: "CENÁRIOS DE MERCADO – BLOCO B",
-                sub: "Niltomar, Katia e Leonardo",
-                ticker: "Análise profunda de mercado e tendências para 2026 • Convenção de Líderes"
+                label: "FOCO: PESSOAS E CULTURA",
+                title: "CAPACITAÇÃO DE LIDERANÇAS",
+                sub: "CONTRATAÇÃO QUALIFICADA E CULTURA FORTE",
+                ticker: "A cultura atual não sustenta o crescimento necessário. • Aumentar receita com corporativo estruturado."
             },
             {
-                label: "10:30 - 10:40 | INTERVALO",
-                title: "PAUSA RÁPIDA",
-                sub: "Recarregue as energias",
-                ticker: "Voltamos em 10 minutos! • Aproveite para um café e integração"
+                label: "TECNOLOGIA E PROCESSO",
+                title: "ECOSSISTEMA DE APOIO",
+                sub: "INTEGRAÇÃO, IA E EXPERIÊNCIA",
+                ticker: "Apps unificados e redução de processos manuais. • Uso de IA para melhor experiência do cliente."
             },
             {
-                label: "10:40 - 11:00 | DIA 1",
-                title: "EXPERIÊNCIA DO CLIENTE",
-                sub: "Andrelma e Flávia",
-                ticker: "O cliente sempre no centro de tudo que fazemos • Foco na Experiência"
+                label: "O PONTO MAIS ESTRATÉGICO",
+                title: "O PROBLEMA ESTÁ 'ENTRE' AS ÁREAS",
+                sub: "QUEBRAR SILOS E DECISÕES ISOLADAS",
+                ticker: "Eliminar a falta de colaboração e a baixa autonomia. • Accountability: franqueza com responsabilidade."
             },
             {
-                label: "11:00 - 11:15 | DIA 1",
-                title: "APRENDIZADOS E INSIGHTS (A3)",
-                sub: "Os 3 motores: Crescer, Reter e Rentabilizar",
-                ticker: "Nossos Pilares de Crescimento para 2026 • #LideresBrisanet2026"
-            },
-            {
-                label: "11:15 - 11:30 | DIA 1",
-                title: "RECONHECIMENTO",
-                sub: "Valor Cliente entre os líderes",
-                ticker: "Momento de celebrar nossas conquistas e reconhecer o talento da nossa equipe!"
-            },
-            {
-                label: "11:30 - 11:50 | DIA 1",
-                title: "ESTRATÉGIA: VOO 2026",
-                sub: "Entendimento da dinâmica e da Rota",
-                ticker: "Preparando as turbinas para o crescimento • Convenção de Líderes"
-            },
-            {
-                label: "11:50 - 12:10 | DIA 1",
-                title: "RADAR ESTRATÉGICO",
-                sub: "Identificação de Impedimentos",
-                ticker: "Quais são as pedras no caminho e como vamos superá-las juntos?"
-            },
-            {
-                label: "12:10 - 12:35 | DIA 1",
-                title: "MENSAGEM CABINE",
-                sub: "Orçamento com Arthur e Reinaldo",
-                ticker: "Alinhamento orçamentário e visão financeira de longo prazo"
-            },
-            {
-                label: "12:35 - 13:00 | DIA 1",
-                title: "RADAR ESTRATÉGICO",
-                sub: "Definição de Prioridades",
-                ticker: "Foco no que realmente importa para alcançar nossos resultados"
-            },
-
-            // DIA 1 - TARDE
-            {
-                label: "14:00 - 14:20 | DIA 1",
-                title: "MAPA ESTRATÉGICO 2026",
-                sub: "Validação com Reinaldo",
-                ticker: "Prioridades x Motor e alinhamento entre as áreas • Voo Brisanet"
-            },
-            {
-                label: "14:20 - 14:50 | DIA 1",
-                title: "RADAR ESTRATÉGICO",
-                sub: "Conversas e Acordos entre as áreas",
-                ticker: "Visão integrada de prioridades e responsabilidades acordadas entre os times"
-            },
-            {
-                label: "14:50 - 15:05 | DIA 1",
-                title: "RADAR ESTRATÉGICO",
-                sub: "O que Deixar de Fazer (Desprioridades)",
-                ticker: "Definição de desprioridades: dizer 'não' também é ter estratégia"
-            },
-            {
-                label: "15:05 - 15:25 | DIA 1",
-                title: "RADAR ESTRATÉGICO",
-                sub: "Reavaliação baseada em cenários",
-                ticker: "Garantindo que nossa Rota faz sentido diante do cenário atual"
-            },
-            {
-                label: "15:25 - 15:35 | DIA 1",
-                title: "OPERAÇÃO BRISANET E SILOS",
-                sub: "Integração operacional",
-                ticker: "Quebrando barreiras para trabalharmos como uma única grande engrenagem"
-            },
-            {
-                label: "15:35 - 15:50 | INTERVALO",
-                title: "PAUSA PARA O CAFÉ",
-                sub: "Integração social e descanso",
-                ticker: "Aproveite para conversar com líderes de outras áreas • Voltamos em breve"
-            },
-            {
-                label: "15:50 - 16:35 | DIA 1",
-                title: "GINÁSTICA LABORAL",
-                sub: "Acolhimento e Movimento",
-                ticker: "Cuidar da nossa saúde física e mental faz parte do nosso sucesso!"
-            },
-            {
-                label: "16:35 - 17:05 | DIA 1",
-                title: "ESTRATÉGIA DE PESSOAS",
-                sub: "Simone, Daiane e Dina",
-                ticker: "Contexto de pessoas e cultura da Brisanet • Nosso bem mais valioso"
-            },
-            {
-                label: "17:05 - 17:35 | DIA 1",
-                title: "JORNADA DIGITAL",
-                sub: "Igor Carolino, Felipe Xavier e Lucas Kennedy",
-                ticker: "Aceleração digital e tecnologia impulsionando nosso negócio"
-            },
-            {
-                label: "17:35 - 17:45 | DIA 1",
-                title: "RECONHECIMENTO",
-                sub: "Valor Cliente entre líderes (Interno)",
-                ticker: "Momento de aplaudir o protagonismo da nossa equipe • Parabéns!"
-            },
-            {
-                label: "17:45 - 18:00 | DIA 1",
-                title: "REFLEXÕES ESTRATÉGICAS",
-                sub: "Síntese e Fechamento com o CEO",
-                ticker: "Fim do primeiro dia de voo! • Amanhã temos muito mais • Convenção 2026"
-            },
-            {
-                label: "19:00 - 21:00 | DIA 1",
-                title: "HAPPY HOUR",
-                sub: "Momento de descontração da tripulação",
-                ticker: "Divirta-se! Celebre o conhecimento compartilhado no dia de hoje"
-            },
-
-            // DIA 2 - GOVERNANÇA
-            {
-                label: "08:30 - 08:40 | DIA 2",
-                title: "RECEPÇÃO: CARTÃO DE EMBARQUE",
-                sub: "Boas-vindas para o segundo dia de voo",
-                ticker: "Bom dia, tripulação! Prontos para decolar no nosso Dia de Governança?"
-            },
-            {
-                label: "08:40 - 08:45 | DIA 2",
-                title: "BOAS VINDAS E SEGURANÇA",
-                sub: "Alinhamento do objetivo do dia",
-                ticker: "Foco total para sustentar a nossa rota e assumir compromissos fortes"
-            },
-            {
-                label: "08:45 - 08:55 | DIA 2",
-                title: "CONEXÃO E APRENDIZADOS",
-                sub: "Compartilhando as lições do primeiro dia",
-                ticker: "O que você levou de mais valioso da programação de ontem? • Comente!"
-            },
-            {
-                label: "08:55 - 09:00 | DIA 2",
-                title: "ESTRATÉGIA: VOO 2026",
-                sub: "Entendimento da Dinâmica de Governança",
-                ticker: "Preparação para estruturarmos o futuro da nossa operação"
-            },
-            {
-                label: "09:00 - 09:25 | DIA 2",
-                title: "RESULTADOS PPR & RITO",
-                sub: "Simone e Roberto",
-                ticker: "Entendimento do PPR e nossos desafios para batermos as metas de 2026"
-            },
-            {
-                label: "09:25 - 09:50 | DIA 2",
-                title: "GOVERNANÇA - COMO ESTAMOS?",
-                sub: "Consciência atual e oportunidades",
-                ticker: "Olhar para o presente para conseguirmos construir um futuro melhor"
-            },
-            {
-                label: "09:50 - 10:00 | INTERVALO",
-                title: "PAUSA RÁPIDA",
-                sub: "Café e Networking",
-                ticker: "Voltamos em 10 minutos para iniciar a construção da nossa Governança!"
-            },
-            {
-                label: "10:00 - 10:40 | DIA 2",
-                title: "GOVERNANÇA - CONSTRUÇÃO",
-                sub: "Arquitetura, Rituais e Fluxo de Decisão",
-                ticker: "Desenhando os processos que sustentarão o Voo Brisanet 2026"
-            },
-            {
-                label: "10:40 - 11:00 | DIA 2",
-                title: "GOVERNANÇA VALIDADA",
-                sub: "Apresentação e Validação do Modelo",
-                ticker: "Fechando os acordos estruturais da nossa nova forma de operar"
-            },
-            {
-                label: "11:00 - 11:20 | DIA 2",
-                title: "PRÓXIMOS PASSOS",
-                sub: "Papéis e responsabilidades imediatos",
-                ticker: "Ação e Execução: o que cada um precisa fazer a partir de amanhã?"
-            },
-            {
-                label: "11:20 - 11:30 | DIA 2",
-                title: "COMPROMISSOS: RITO DA TORRE",
-                sub: "Compromissos formalizados",
-                ticker: "Assumindo a responsabilidade pela Rota 2026! • #SomosBrisanet"
-            },
-            {
-                label: "11:30 - 11:40 | DIA 2",
-                title: "RECONHECIMENTO",
-                sub: "Valor Cliente entre os líderes",
-                ticker: "Agradecimento e reconhecimento interno pelo empenho de toda a liderança"
-            },
-            {
-                label: "11:40 - 11:45 | DIA 2",
-                title: "AVALIAÇÃO DA CONVENÇÃO",
-                sub: "Feedback da Liderança",
-                ticker: "Não esqueça de preencher a pesquisa de satisfação! Sua voz é importante"
-            },
-            {
-                label: "11:45 - 12:00 | DIA 2",
-                title: "FECHAMENTO CEO",
-                sub: "Síntese e inspiração para o Voo Brisanet 2026",
-                ticker: "Obrigado por fazer parte dessa jornada! • Desejamos um excelente Voo em 2026"
+                label: "MENSAGEM FINAL",
+                title: "NÃO TEMOS TEMPO: FAÇA HOJE",
+                sub: "O QUE JÁ PODE SER FEITO AMANHÃ?",
+                ticker: "Melhoria contínua e senso de urgência. • O problema não é o plano, é fazer o plano acontecer. • JUNTOS."
             }
         ];
 
@@ -408,12 +224,16 @@
             const m = moments[currentIndex];
             const gc = document.getElementById('gc-main');
             
-            // Reinicia animação
             gc.style.animation = 'none';
             void gc.offsetWidth; 
             gc.style.animation = null;
             
-            document.getElementById('moment-label').innerText = m.label;
+            // Atualiza numeração
+            const currentNum = (currentIndex + 1).toString().padStart(2, '0');
+            const totalNum = moments.length.toString().padStart(2, '0');
+            document.getElementById('panel-counter').innerText = `${currentNum} | ${totalNum}`;
+
+            document.getElementById('moment-label').querySelector('span').innerText = m.label;
             document.getElementById('main-title').innerText = m.title;
             document.getElementById('sub-title').innerText = m.sub;
             document.getElementById('ticker-text').innerText = m.ticker + " • " + m.ticker; 
